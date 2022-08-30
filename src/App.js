@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import Greeting from './components/Greeting'
+import LoginButton from './components/LoginButton'
+import LogoutButton from './components/LogoutButton'
+import Mailbox from './components/Mailbox'
 
 function App() {
+  const [isLoggedIn, toggleLogin] = useState(false)
+
+  const [unreadMessages, setUnreadMessages] = useState(['Hello', 'world', 'we have your order'])
+
+  const handleLoginClick = () => toggleLogin(true)
+
+  const handleLogoutClick = () => toggleLogin(false)
+
+  let button
+  const mailbox = isLoggedIn && <Mailbox unreadMessages = {unreadMessages}/>
+
+  if (isLoggedIn) {
+    button = <LogoutButton onClick={handleLogoutClick} />
+  } else {
+    button = <LoginButton onClick={handleLoginClick} />
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Greeting isLoggedIn={isLoggedIn} />
+      {button}
+      {mailbox}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
